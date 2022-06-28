@@ -11,6 +11,7 @@ export default createGlobalStyle`
   ul {
     list-style: none;
   }
+
   a {
     text-decoration: none;
   }
@@ -34,5 +35,15 @@ export default createGlobalStyle`
   h5,
   h6 {
     font-family: Ubuntu;
+  }
+
+  body {
+    background-color: #eee;
+  }
+
+  main {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
   }
 `;

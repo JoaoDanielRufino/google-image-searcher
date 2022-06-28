@@ -20,18 +20,18 @@ type Search struct {
 }
 
 type SearchResponse struct {
-	Request  *searchQueries
-	NextPage *searchQueries
-	Items    []*customsearch.Result
+	Request  *searchQueries         `json:"request"`
+	NextPage *searchQueries         `json:"nextPage"`
+	Items    []*customsearch.Result `json:"items"`
 }
 
 type searchQueries struct {
-	Count        int64
-	SearchTherms string
-	SearchType   string
-	StartIndex   int64
-	Title        string
-	TotalResults int64
+	Count        int64  `json:"count"`
+	SearchTherms string `json:"searchItems"`
+	SearchType   string `json:"searchType"`
+	StartIndex   int64  `json:"startIndex"`
+	Title        string `json:"title"`
+	TotalResults int64  `json:"totalResults"`
 }
 
 func NewSearch(apiKey, cx string) Search {
