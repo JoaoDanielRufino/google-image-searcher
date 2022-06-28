@@ -1,4 +1,4 @@
-module github.com/JoaoDanielRufino/google-image-search/lambda/api
+module github.com/JoaoDanielRufino/google-image-searcher/lambda/api
 
 go 1.18
 

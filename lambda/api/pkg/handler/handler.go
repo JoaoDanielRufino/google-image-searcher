@@ -3,7 +3,7 @@ package handler
 import (
 	"encoding/json"
 
-	"github.com/JoaoDanielRufino/google-image-search/lambda/api/pkg/search"
+	"github.com/JoaoDanielRufino/google-image-searcher/lambda/api/pkg/search"
 	"github.com/aws/aws-lambda-go/events"
 )
 

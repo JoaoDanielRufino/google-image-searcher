@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/JoaoDanielRufino/google-image-search/lambda/api/pkg/handler"
+	"github.com/JoaoDanielRufino/google-image-searcher/lambda/api/pkg/handler"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
