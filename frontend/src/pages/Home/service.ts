@@ -4,7 +4,7 @@ import { Item } from '../../interfaces';
 
 interface SearchQueries {
   count: number;
-  searchTherms: string;
+  searchTerms: string;
   searchType: string;
   startIndex: number;
   title: string;
