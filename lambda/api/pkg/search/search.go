@@ -27,7 +27,7 @@ type SearchResponse struct {
 
 type searchQueries struct {
 	Count        int64  `json:"count"`
-	SearchTherms string `json:"searchItems"`
+	SearchTerms  string `json:"searchTerms"`
 	SearchType   string `json:"searchType"`
 	StartIndex   int64  `json:"startIndex"`
 	Title        string `json:"title"`
@@ -86,7 +86,7 @@ func (s Search) searchResponse(cseResponse *customsearch.Search) *SearchResponse
 	return &SearchResponse{
 		Request: &searchQueries{
 			Count:        request.Count,
-			SearchTherms: request.SearchTerms,
+			SearchTerms:  request.SearchTerms,
 			SearchType:   request.SearchType,
 			StartIndex:   request.StartIndex,
 			Title:        request.Title,
@@ -94,7 +94,7 @@ func (s Search) searchResponse(cseResponse *customsearch.Search) *SearchResponse
 		},
 		NextPage: &searchQueries{
 			Count:        nextPage.Count,
-			SearchTherms: nextPage.SearchTerms,
+			SearchTerms:  nextPage.SearchTerms,
 			SearchType:   nextPage.SearchType,
 			StartIndex:   nextPage.StartIndex,
 			Title:        nextPage.Title,
