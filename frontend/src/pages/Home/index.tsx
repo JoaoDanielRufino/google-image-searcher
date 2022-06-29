@@ -1,22 +1,62 @@
 import { useState } from 'react';
 
-import Input from '../../components/Input';
+import Search, { SearchRequest, SearchResponse } from './service';
 
-import { Container, Form, Header, InputGroup } from './styles';
-import { search } from './service';
+import ImagesGroup from './ImagesGroup';
+
+import Input from '../../components/Input';
+import Pagination from '../../components/Pagination';
+
+import {
+  Container,
+  Form,
+  Header,
+  InputGroup,
+  PaginationContainer,
+} from './styles';
 
 function Home() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState('dark souls');
   const [fileType, setFileType] = useState('');
-  const [width, setWidth] = useState<number>();
-  const [height, setHeight] = useState<number>();
+  const [width, setWidth] = useState('');
+  const [height, setHeight] = useState('');
+  const [startIndex, setStartIndex] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [searchResponse, setSearchResponse] = useState<SearchResponse>();
+
+  async function fetchData() {
+    setLoading(true);
+
+    if (!query) {
+      alert('Query input is required');
+      setLoading(false);
+      return;
+    }
+
+    const request: SearchRequest = {
+      q: query,
+      start: startIndex,
+      ...(fileType && { fileType }),
+      ...(width && { width: parseInt(width) }),
+      ...(height && { height: parseInt(height) }),
+    };
+
+    const data = await Search(request);
+
+    setSearchResponse(data);
+    setStartIndex(data.nextPage.startIndex);
+    setLoading(false);
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    await fetchData();
+  }
 
-    const data = await search({ q: query });
+  function handlePreviousClick() {}
 
-    console.log(data);
+  async function handleNextClick() {
+    await fetchData();
   }
 
   return (
@@ -44,19 +84,34 @@ function Home() {
             placeholder="1920"
             type="number"
             value={width}
-            onChange={(e) => setWidth(parseInt(e.target.value))}
+            onChange={(e) => setWidth(e.target.value)}
           />
           <Input
             labelText="Height (optional)"
             placeholder="1080"
             type="number"
             value={height}
-            onChange={(e) => setHeight(parseInt(e.target.value))}
+            onChange={(e) => setHeight(e.target.value)}
           />
         </InputGroup>
 
-        <button type="submit">Search</button>
+        <button type="submit" disabled={loading}>
+          Search
+        </button>
       </Form>
+
+      {searchResponse && <ImagesGroup items={searchResponse.items} />}
+
+      {searchResponse && (
+        <PaginationContainer>
+          <Pagination
+            hasPrevious={startIndex > 11}
+            disableButtons={loading}
+            onPreviousClick={handlePreviousClick}
+            onNextClick={handleNextClick}
+          />
+        </PaginationContainer>
+      )}
     </Container>
   );
 }

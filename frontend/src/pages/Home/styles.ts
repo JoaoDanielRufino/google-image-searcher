@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 30px;
+  padding-bottom: 80px;
 `;
 
 export const Header = styled.header`
@@ -25,8 +26,12 @@ export const Form = styled.form`
     border-radius: 5px;
     font-size: 16px;
 
-    &:hover {
+    &:not(:disabled):hover {
       filter: brightness(0.9);
+    }
+
+    &:disabled {
+      cursor: default;
     }
   }
 `;
@@ -34,4 +39,10 @@ export const Form = styled.form`
 export const InputGroup = styled.div`
   display: flex;
   gap: 10px;
+`;
+
+export const PaginationContainer = styled.div`
+  width: 100%;
+  align-self: center;
+  margin-top: 120px;
 `;

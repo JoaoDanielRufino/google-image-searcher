@@ -1,11 +1,6 @@
 import axios from 'axios';
 
-interface SearchRequest {
-  q: string;
-  fileType?: string;
-  width?: number;
-  height?: number;
-}
+import { Item } from '../../interfaces';
 
 interface SearchQueries {
   count: number;
@@ -16,31 +11,18 @@ interface SearchQueries {
   totalResults: number;
 }
 
-interface Items {
-  displayLink: string;
-  fileFormat: string;
-  htmlSnippet: string;
-  htmlTitle: string;
-  image: {
-    byteSize: number;
-    contextLink: string;
-    height: number;
-    thumbnailHeight: number;
-    thumbnailLink: string;
-    thumbnailWidth: number;
-    width: number;
-  };
-  kind: string;
-  link: string;
-  mime: string;
-  snippet: string;
-  title: string;
-}
-
-interface SearchResponse {
+export interface SearchResponse {
   request: SearchQueries;
   nextPage: SearchQueries;
-  items: Items[];
+  items: Item[];
+}
+
+export interface SearchRequest {
+  q: string;
+  fileType?: string;
+  width?: number;
+  height?: number;
+  start?: number;
 }
 
 const search = async (request: SearchRequest): Promise<SearchResponse> => {
@@ -49,11 +31,11 @@ const search = async (request: SearchRequest): Promise<SearchResponse> => {
     {
       apiKey: process.env.REACT_APP_API_KEY,
       cx: process.env.REACT_APP_CX,
-      q: request.q,
+      ...request,
     }
   );
 
   return response.data;
 };
 
-export { search };
+export default search;
