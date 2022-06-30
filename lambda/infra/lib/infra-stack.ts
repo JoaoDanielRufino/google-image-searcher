@@ -1,8 +1,11 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { GoFunction } from '@aws-cdk/aws-lambda-go-alpha';
-import { LambdaRestApi } from 'aws-cdk-lib/aws-apigateway';
-import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import {
+  LambdaRestApi,
+  JsonSchemaType,
+  LambdaIntegration,
+} from 'aws-cdk-lib/aws-apigateway';
 import { join } from 'path';
 
 export class InfraStack extends Stack {
@@ -27,45 +30,41 @@ export class InfraStack extends Stack {
 
     const requestModel = api.addModel('request-body', {
       schema: {
-        type: apigateway.JsonSchemaType.OBJECT,
+        type: JsonSchemaType.OBJECT,
         properties: {
           apiKey: {
-            type: apigateway.JsonSchemaType.STRING,
+            type: JsonSchemaType.STRING,
           },
           cx: {
-            type: apigateway.JsonSchemaType.STRING,
+            type: JsonSchemaType.STRING,
           },
           q: {
-            type: apigateway.JsonSchemaType.STRING,
+            type: JsonSchemaType.STRING,
           },
           fileType: {
-            type: apigateway.JsonSchemaType.STRING,
+            type: JsonSchemaType.STRING,
           },
           width: {
-            type: apigateway.JsonSchemaType.INTEGER,
+            type: JsonSchemaType.INTEGER,
           },
           height: {
-            type: apigateway.JsonSchemaType.INTEGER,
+            type: JsonSchemaType.INTEGER,
           },
           start: {
-            type: apigateway.JsonSchemaType.INTEGER,
+            type: JsonSchemaType.INTEGER,
           },
         },
         required: ['apiKey', 'cx', 'q'],
       },
     });
 
-    api.root.addMethod(
-      'POST',
-      new apigateway.LambdaIntegration(lambdaFunction),
-      {
-        requestModels: {
-          'application/json': requestModel,
-        },
-        requestValidatorOptions: {
-          validateRequestBody: true,
-        },
-      }
-    );
+    api.root.addMethod('POST', new LambdaIntegration(lambdaFunction), {
+      requestModels: {
+        'application/json': requestModel,
+      },
+      requestValidatorOptions: {
+        validateRequestBody: true,
+      },
+    });
   }
 }
