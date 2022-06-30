@@ -7,6 +7,11 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
+var headers = map[string]string{
+	"Access-Control-Allow-Origin": "http://infrafrontstack-googleimageseacherfrontendbucket3-188c4n2h12l92.s3-website-us-east-1.amazonaws.com",
+	"Content-Type":                "application/json",
+}
+
 type RequestBody struct {
 	ApiKey   string `json:"apiKey"`
 	Cx       string `json:"cx"`
@@ -36,6 +41,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 func handleError(err error) (events.APIGatewayProxyResponse, error) {
 	return events.APIGatewayProxyResponse{
+		Headers:    headers,
 		Body:       err.Error(),
 		StatusCode: 500,
 	}, err
@@ -48,6 +54,7 @@ func generateResponse(searchResponse *search.SearchResponse) (events.APIGatewayP
 	}
 
 	return events.APIGatewayProxyResponse{
+		Headers:    headers,
 		Body:       string(response),
 		StatusCode: 200,
 	}, nil

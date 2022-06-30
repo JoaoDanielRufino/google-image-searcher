@@ -16,7 +16,7 @@ import {
 } from './styles';
 
 function Home() {
-  const [query, setQuery] = useState('dark souls');
+  const [query, setQuery] = useState('');
   const [fileType, setFileType] = useState('');
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');

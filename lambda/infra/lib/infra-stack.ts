@@ -16,6 +16,13 @@ export class InfraStack extends Stack {
     const api = new LambdaRestApi(this, 'apigateway-lambda', {
       handler: lambdaFunction,
       proxy: false,
+      defaultCorsPreflightOptions: {
+        allowOrigins: [
+          'http://infrafrontstack-googleimageseacherfrontendbucket3-188c4n2h12l92.s3-website-us-east-1.amazonaws.com',
+        ],
+        allowHeaders: ['Content-Type'],
+        allowMethods: ['POST', 'OPTIONS'],
+      },
     });
 
     const requestModel = api.addModel('request-body', {
